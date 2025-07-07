@@ -59,9 +59,9 @@
    - **Domain:**  
      `dev-ixlhmtd0gcgsdsnr.us.auth0.com`
    - **Client ID:**  
-     `XzOJvNEwbXjv97uhfwacohH4rBnlpd9x`
+     `XzOJvNEwbXjv97uhfwaco....`
    - **Client Secret:**  
-     `Z5uvYp_MfMMUFSWsZ1w31j03zmCcd4xkLIR8ViKqfPX9KaG7i86gvLJj9Yhm_apo`
+     `Z5uvYp_MfMMUFSWsZ1w31j03zmCcd4xkLIR8ViKqfPX9KaG7i.....`
      
 5. Edit Your **Environment File**
    - Open `01-login/.env` in VS Code, Notepad++, or your editor of choice.  
