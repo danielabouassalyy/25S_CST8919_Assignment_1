@@ -1,3 +1,4 @@
+
 # 25S_CST8919_Assignment_1
 ## Securing &amp; Monitoring an Authenticated Flask App
 
@@ -145,4 +146,67 @@ pip install -r requirements.txt
 | Name                   | Type      | Notification Method | Recipient Email                |
 | ---------------------- | --------- | ------------------- | ------------------------------ |
 | `ExcessProtectedHits`  | Action Group | Email               | your.email@domain.com          |
+## Logging & Detection Logic
+
+### Logging
+
+- **Structured application logs**  
+  In `app.py` we emit three structured JSON log events via Flask’s `app.logger`:
+  1. **LOGIN**  
+     ```python
+     app.logger.info({
+       "event":   "LOGIN",
+       "user_id": userinfo.get("sub"),
+       "email":   userinfo.get("email"),
+       "time":    datetime.datetime.utcnow().isoformat() + "Z"
+     })
+     ```
+  2. **PROTECTED_HIT**  
+     ```python
+     app.logger.info({
+       "event":   "PROTECTED_HIT",
+       "user_id": userinfo.get("sub"),
+       "route":   "/protected",
+       "time":    datetime.datetime.utcnow().isoformat() + "Z"
+     })
+     ```
+  3. **UNAUTHORIZED**  
+     ```python
+     app.logger.warning({
+       "event":    "UNAUTHORIZED",
+       "path":     request.path,
+       "time":     datetime.datetime.utcnow().isoformat() + "Z"
+     })
+     ```
+- **Azure App Service configuration**  
+  - **Application Logging (Filesystem)** turned **On** at **Information** level  
+  - **Diagnostic setting** streams both **Console Logs** and **Application Logs** into our Log Analytics workspace (`Assignment1LAW`)  
+
+### Detection Logic
+
+We want to catch any user who hits the protected endpoint more than 10 times in a rolling 15-minute window. To do that:
+
+1. **Query** the `AppServiceConsoleLogs` table in Log Analytics.  
+2. **Filter** to only our `PROTECTED_HIT` events.  
+3. **Parse** each log’s JSON payload.  
+4. **Count** the hits per `user_id` in 15-minute bins.  
+5. **Alert** if any count exceeds 10.
+
+---
+
+## KQL Query & Alert Logic
+
+```kql
+// 1. Start from the diagnostic logs table
+AppServiceConsoleLogs
+// 2. Narrow to our structured PROTECTED_HIT entries
+| where ResultDescription contains "PROTECTED_HIT"
+// 3. Parse the JSON payload
+| extend payload = todynamic(ResultDescription)
+// 4. Count hits per user in 15-minute windows
+| summarize count_hits = count()
+    by user_id = tostring(payload.user_id),
+       window = bin(TimeGenerated, 15m)
+// 5. Only keep windows where the count > 10
+| where count_hits > 10
 
