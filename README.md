@@ -45,8 +45,8 @@
 
 2. **Configure Callback & Logout URLs**  
    - In Auth0 Dashboard → **Applications** → **[Your App]** → **Settings**  
-   - **Allowed Callback URLs**: (`[http://localhost:3000/callback](http://localhost:3000/callback, http://127.0.0.1:3000/callback, http://myflaskapppppdan-fjgreghnbvgubcgu.eastus2-01.azurewebsites.net/callback)`)  
-   - **Allowed Logout URLs**:   (`[http://localhost:3000](http://localhost:3000/callback, http://127.0.0.1:3000/callback, http://myflaskapppppdan-fjgreghnbvgubcgu.eastus2-01.azurewebsites.net/)`)  
+   - **Allowed Callback URLs**: (`(http://localhost:3000/callback, http://127.0.0.1:3000/callback, http://myflaskapppppdan-fjgreghnbvgubcgu.eastus2-01.azurewebsites.net/callback)`)  
+   - **Allowed Logout URLs**:   (`(http://localhost:3000/callback, http://127.0.0.1:3000/callback, http://myflaskapppppdan-fjgreghnbvgubcgu.eastus2-01.azurewebsites.net/)`)  
    - Click **Save Changes**  
 
 3. **Open PowerShell** and navigate to your project folder  
