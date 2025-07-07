@@ -102,3 +102,47 @@ cd C:\Users\dan\Desktop\25S_CST8919_Lab_1\01-login
 pip install -r requirements.txt
 ```
 ---
+## Azure Resources
+
+### Resource Group
+
+| Name           | Type           | Region   | Notes                         |
+| -------------- | -------------- | -------- | ----------------------------- |
+| `Assignment1RG` | Resource Group | East US 2 | Parent for all other resources |
+
+### App Service Plan
+
+| Name                     | Type                | Region   | SKU       | Notes                             |
+| ------------------------ | ------------------- | -------- | --------- | --------------------------------- |
+| `ASP-Assignment1RG-<id>` | App Service Plan    | East US 2 | Free F1 / B1 | Hosts the Flask web app |
+
+### Web App
+
+| Name                        | Type    | Region   | Runtime       | URL                                                                                   |
+| --------------------------- | ------- | -------- | ------------- | ------------------------------------------------------------------------------------- |
+| `myflaskapppppdan`          | Web App | East US 2 | Python 3.11   | https://myflaskapppppdan-fjgreghnbvgubcgu.eastus2-01.azurewebsites.net                 |
+
+### Log Analytics Workspace
+
+| Name             | Type                     | Region   | Workspace ID                                   |
+| ---------------- | ------------------------ | -------- | ---------------------------------------------- |
+| `Assignment1LAW` | Log Analytics workspace  | East US 2 | 805ef5cd-dba2-4928-a666-50cf5f429a0d            |
+
+### Diagnostic Settings
+
+| Resource           | Logs Enabled              | Destination Workspace | Notes                      |
+| ------------------ | ------------------------- | --------------------- | -------------------------- |
+| `myflaskapppppdan` | App Service Console Logs<br>App Service Application Logs | `Assignment1LAW`      | Streams structured app.logger output |
+
+### Alerting
+
+| Name                 | Type               | Target Scope     | Condition                                               | Frequency | Threshold | Action Group            |
+| -------------------- | ------------------ | ---------------- | ------------------------------------------------------- | --------- | --------- | ----------------------- |
+| `ExcessProtectedHits` | Log alert (v2)     | `Assignment1LAW` | >10 “PROTECTED_HIT” events by any user in a 15 min window | 5 min     | 10 rows   | `ExcessProtectedHits` AG |
+
+### Action Group
+
+| Name                   | Type      | Notification Method | Recipient Email                |
+| ---------------------- | --------- | ------------------- | ------------------------------ |
+| `ExcessProtectedHits`  | Action Group | Email               | your.email@domain.com          |
+
