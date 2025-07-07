@@ -334,3 +334,23 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(env.get("PORT", 3000)))
 
 ```
+## Reflection
+
+Overall this assignment gave me a chance to bring together identity, observability, and alerting in a cohesive DevSecOps workflow.  
+
+**What worked well**  
+- **Auth0 SSO integration**: I was able to reuse and extend my Lab 1 Flask/Auth0 code without issues.  
+- **Structured logging**: All three events (`LOGIN`, `PROTECTED_HIT`, `UNAUTHORIZED`) were emitted as JSON via `app.logger.info()` and `.warning()` and surfaced in both local console and Azure App Service logs.  
+- **Azure deployment & diagnostics**:  
+  - I successfully deployed the app to a Linux App Service (Python 3.11)  
+  - Enabled Application Logging (Filesystem) and Diagnostic Settings to stream `AppServiceConsoleLogs` into my Log Analytics workspace  
+- **KQL detection**: My query accurately counted `/protected` hits per user in 15-minute bins and filtered for counts > 10.  
+- **Alert rule**: The `ExcessProtectedHits` rule triggered correctly when forced via “Run query” and was visible under Monitor → Alerts.  
+
+**What I’d improve**  
+- **Email notifications**: I hit a hiccup getting the real alert email to fire end-to-end. Although my Action Group test emails succeeded, the live alert didn’t send automatically on schedule. I suspect the evaluation schedule or rule scope needs fine-tuning.  
+- **Faster alert frequency**: Azure’s “Aggregated logs” alerts have a minimum 5 min evaluation period. For real-time security monitoring, a 1 min cadence or a metric-based alert might be preferable.  
+- **Documentation & scripts**: I’d add a small wrapper script to automate the “11 rapid `/protected` hits” test, and integrate that into CI to validate alert functionality on every deployment.
+
+Despite the email trigger quirk, I was able to demonstrate secure SSO, structured logging, KQL-based detection, and alerting logic end-to-end—even if the final notification needs a bit more polish.
+
