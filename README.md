@@ -68,8 +68,8 @@
    - Replace the placeholders so the file reads:
 
    ```dotenv
-   AUTH0_CLIENT_ID=XzOJvNEwbXjv97uhfwacohH4rBnlpd9x
-   AUTH0_CLIENT_SECRET=Z5uvYp_MfMMUFSWsZ1w31j03zmCcd4xkLIR8ViKqfPX9KaG7i86gvLJj9Yhm_apo
+   AUTH0_CLIENT_ID=XzOJvNEwbXjv97uhfwac....
+   AUTH0_CLIENT_SECRET=Z5uvYp_MfMMUFSWsZ1w31j03zmCcd4xkLIR8ViKqfPX.....
    AUTH0_DOMAIN=dev-ixlhmtd0gcgsdsnr.us.auth0.com
    APP_SECRET_KEY=ALongRandomlyGeneratedString
    ```
