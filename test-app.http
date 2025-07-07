@@ -1,0 +1,17 @@
+### 1. Unauthenticated /protected (should redirect to /login)
+GET https://myflaskapppppdan-fjgreghnbvgubcgu.eastus2-01.azurewebsites.net/protected
+Accept: text/html
+
+### 2. Start Auth0 login flow
+GET https://myflaskapppppdan-fjgreghnbvgubcgu.eastus2-01.azurewebsites.net/login
+Accept: text/html
+
+### 3. Authenticated /protected (copy your session cookie from the browser into SESSION_COOKIE_VALUE)
+#   - In Chrome DevTools → Application → Cookies → your-domain → copy the value of the "auth0" (or ".session") cookie.
+GET https://myflaskapppppdan-fjgreghnbvgubcgu.eastus2-01.azurewebsites.net/protected
+Cookie: auth0=SESSION_COOKIE_VALUE
+Accept: text/html
+
+### 4. Simulate 11 rapid protected hits (shell snippet, not for REST Client)
+# Run in your terminal (replace COOKIEJAR with a cookie file you’ve saved earlier)
+# for i in {1..11}; do curl -s -b COOKIEJAR https://myflaskapppppdan-fjgreghnbvgubcgu.eastus2-01.azurewebsites.net/protected >/dev/null; done
